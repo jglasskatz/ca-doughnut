@@ -338,9 +338,10 @@ class D3Doughnut {
             const arcAngle = (Math.PI * 2) / dims.length;
 
             dims.forEach((dim, i) => {
+                // Match d3.arc positioning: angle 0 = top, clockwise; position = (sin, -cos)
                 const angle = i * arcAngle - Math.PI / 2 + arcAngle / 2;
-                const x = Math.cos(angle) * radius;
-                const y = Math.sin(angle) * radius;
+                const x = Math.sin(angle) * radius;
+                const y = -Math.cos(angle) * radius;
 
                 const words = dim.name.split(' ');
                 const lines = [];
