@@ -6,13 +6,15 @@ import type { RegionSummary, DoughnutData, Contact } from '../types'
  * 2. GitHub Pages: fetches pre-built static JSON from /api/*.json
  */
 
+const BASE_URL = import.meta.env.BASE_URL || '/'
+
 async function fetchJson<T>(path: string): Promise<T> {
-  // Try the live API first
+  // Try the live API first (dev mode with proxy)
   const res = await fetch(path)
   if (res.ok) return res.json()
 
-  // Fall back to static .json file (for GH Pages)
-  const staticPath = path.endsWith('.json') ? path : path + '.json'
+  // Fall back to static .json file (GH Pages) — prepend base URL
+  const staticPath = BASE_URL + path.replace(/^\//, '') + '.json'
   const staticRes = await fetch(staticPath)
   if (staticRes.ok) return staticRes.json()
 
